@@ -4,95 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manus AI ASCII Agent</title>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #121212, #1e1e1e);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.3);
-            margin-bottom: 20px;
-            animation: fadeIn 1s ease-in-out;
-        }
-        #chat-container {
-            width: 100%;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(15px);
-            animation: fadeInUp 1.2s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        input {
-            width: 90%;
-            padding: 15px;
-            border-radius: 10px;
-            border: none;
-            font-size: 18px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s;
-        }
-        input:focus {
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
-        }
-        button {
-            margin-top: 15px;
-            padding: 15px 25px;
-            background: linear-gradient(135deg, #ff6600, #ff3300);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: all 0.3s;
-        }
-        button:hover {
-            background: linear-gradient(135deg, #ff3300, #ff6600);
-            transform: scale(1.05);
-        }
-        pre {
-            background: rgba(30, 30, 30, 0.9);
-            padding: 20px;
-            border-radius: 12px;
-            white-space: pre-wrap;
-            text-align: left;
-            overflow-x: auto;
-            font-size: 16px;
-            max-height: 400px;
-            overflow-y: auto;
-            box-shadow: inset 0px 0px 15px rgba(255, 255, 255, 0.2);
-            animation: fadeInUp 1.5s ease-in-out;
-            width: 100%;
-        }
-        #about {
-            margin-top: 50px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            text-align: center;
-            width: 80%;
-            max-width: 800px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 1.5s ease-in-out;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1 class="glow-text">Manus AI ASCII Agent</h1>
+    <div id="chat-container">
+        <input type="text" id="userInput" placeholder="Enter an object for ASCII art...">
+        <button onclick="sendMessage()">Generate</button>
+        <pre id="response"></pre>
+    </div>
+    
+    <div id="about">
+        <h2>About Manus AI ASCII Agent</h2>
+        <p class="typing-effect">The official ASCII agent created to push the boundaries of text-based creativity.</p>
+        <div class="about-features">
+            <div class="feature-card">Web-Based ASCII Art</div>
+            <div class="feature-card">Image to ASCII Conversion</div>
+            <div class="feature-card">Dynamic Text Effects</div>
+            <div class="feature-card">Modern Cursor Animations</div>
+        </div>
+    </div>
+
     <script>
         async function sendMessage() {
             let userInput = document.getElementById("userInput").value.trim();
@@ -114,28 +46,16 @@
             let data = await response.json();
             responseBox.innerText = data.response;
         }
+
+        // Custom Cursor Effect
+        document.addEventListener("mousemove", (e) => {
+            let cursor = document.getElementById("cursor");
+            cursor.style.top = e.clientY + "px";
+            cursor.style.left = e.clientX + "px";
+        });
+
     </script>
-</head>
-<body>
-    <h1>Manus AI ASCII Agent</h1>
-    <div id="chat-container">
-        <input type="text" id="userInput" placeholder="Enter an object for ASCII art...">
-        <button onclick="sendMessage()">Generate</button>
-        <pre id="response"></pre>
-    </div>
-    <div id="about">
-        <h2>About the Manus AI ASCII Agent</h2>
-        <p>Welcome to the Manus AI ASCII Agent, the official ASCII art generator designed according to Manus AI's vision.</p>
-        <p>This agent was created to push the boundaries of ASCII creativity, delivering AI-powered art generation.</p>
-        <p>Key Features:</p>
-        <ul>
-            <li>Fetches images from the web dynamically</li>
-            <li>Converts images into high-quality ASCII art</li>
-            <li>Supports different ASCII styles and customizations</li>
-            <li>Super-fast generation powered by AI</li>
-            <li>Future feature: Upload your own images</li>
-        </ul>
-        <p>This is the next evolution of digital ASCII art. Designed for creativity. Inspired by technology.</p>
-    </div>
+
+    <div id="cursor"></div>
 </body>
 </html>
