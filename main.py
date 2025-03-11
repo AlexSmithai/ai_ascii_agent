@@ -4,7 +4,10 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# OpenAI API Key (Set this in your Railway environment variables)
+# Ensure OpenAI API key is loaded
+if not os.getenv("OPENAI_API_KEY"):
+    raise ValueError("Missing OpenAI API Key. Set OPENAI_API_KEY as an environment variable.")
+
 openai_client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Function to generate AI-enhanced ASCII art
@@ -37,4 +40,5 @@ def chat():
     return jsonify({"response": ascii_response})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
+
