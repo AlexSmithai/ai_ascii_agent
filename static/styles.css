@@ -1,0 +1,76 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #121212, #1e1e1e);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+    cursor: none;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.3);
+    margin-bottom: 20px;
+}
+
+.glow-text {
+    animation: glow 1.5s infinite alternate;
+}
+@keyframes glow {
+    from { text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff; }
+    to { text-shadow: 0 0 15px #ffffff, 0 0 30px #ff6600; }
+}
+
+#chat-container {
+    width: 100%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(15px);
+}
+
+.typing-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid #fff;
+    font-size: 1.5rem;
+    animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+}
+
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink { from, to { border-color: transparent } 50% { border-color: white } }
+
+.about-features {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+.feature-card {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+.feature-card:hover {
+    transform: scale(1.1);
+}
+
+#cursor {
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+}
