@@ -4,24 +4,21 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# Ensure OpenAI API key is loaded
-if not os.getenv("OPENAI_API_KEY"):
-    raise ValueError("Missing OpenAI API Key. Set OPENAI_API_KEY as an environment variable.")
-
-openai_client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Load OpenAI API key
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Function to generate AI-enhanced ASCII art
 def generate_ai_ascii(prompt):
-    """Uses OpenAI's latest API format to generate ASCII art."""
+    """Uses OpenAI's API to generate ASCII art."""
     try:
-        response = openai_client.chat.completions.create(
-            model="gpt-4-turbo",  # Use the latest OpenAI model
+        response = openai.ChatCompletion.create(
+            model="gpt-4-turbo",  # Use OpenAI GPT-4 Turbo
             messages=[
                 {"role": "system", "content": "You are an AI that generates ASCII art based on user input."},
                 {"role": "user", "content": f"Generate ASCII art for: {prompt}"}
             ]
         )
-        return response.choices[0].message.content
+        return response["choices"][0]["message"]["content"]
     except Exception as e:
         return f"Error generating AI ASCII: {str(e)}"
 
@@ -40,4 +37,4 @@ def chat():
     return jsonify({"response": ascii_response})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
+    app.run(debug=True)
