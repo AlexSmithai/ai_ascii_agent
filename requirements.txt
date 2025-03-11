@@ -1,5 +1,6 @@
 flask
 gunicorn
-art
-ascii-magic
 requests
+ascii-magic
+colorama
+Pillow
