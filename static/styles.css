@@ -48,22 +48,6 @@ h1 {
 @keyframes typing { from { width: 0 } to { width: 100% } }
 @keyframes blink { from, to { border-color: transparent } 50% { border-color: white } }
 
-.about-features {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-}
-.feature-card {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease-in-out;
-}
-.feature-card:hover {
-    transform: scale(1.1);
-}
-
 #cursor {
     width: 15px;
     height: 15px;
@@ -74,3 +58,4 @@ h1 {
     transform: translate(-50%, -50%);
     mix-blend-mode: difference;
 }
+
