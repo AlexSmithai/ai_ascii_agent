@@ -4,11 +4,11 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-def generate_ascii_art(prompt):
-    """Generates ASCII art using an image-based approach."""
+def generate_ascii_art(image_path):
+    """Generates ASCII art from an image."""
     try:
-        # Use `from_image()` instead of `from_text()`
-        ascii_art = ascii_magic.from_image("sample.jpg", columns=100)
+        # Generate ASCII art without using 'columns' since from_image() does not support it
+        ascii_art = ascii_magic.from_image(image_path)
         return str(ascii_art)
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
@@ -23,8 +23,9 @@ def chat():
     if user_input.lower() == 'exit':
         return jsonify({"response": "Goodbye!"})
 
-    # Generate ASCII representation of the object
-    ascii_response = generate_ascii_art(user_input)
+    # Assuming an image mapping based on user input (e.g., "horse" -> "horse.jpg")
+    image_path = f"static/images/{user_input.lower()}.jpg"  # Adjust path based on available images
+    ascii_response = generate_ascii_art(image_path)
     
     return jsonify({"response": ascii_response})
 
