@@ -7,25 +7,14 @@ from io import BytesIO
 app = Flask(__name__)
 
 def fetch_image_from_web(search_query):
-    """Fetches an image from the web based on the user's query using DuckDuckGo Images API."""
+    """Fetches an image from Unsplash based on the user's query."""
     try:
-        # DuckDuckGo Image Search API URL
-        search_url = f"https://duckduckgo.com/i.js?q={search_query}"
-        headers = {"User-Agent": "Mozilla/5.0"}
+        # Unsplash API (no key required for random images)
+        search_url = f"https://source.unsplash.com/400x400/?{search_query}"
+        response = requests.get(search_url)
 
-        response = requests.get(search_url, headers=headers)
-        if response.status_code != 200:
-            return None
-
-        # Extract first image from search results
-        image_results = response.json().get("results", [])
-        if not image_results:
-            return None
-
-        image_url = image_results[0]["image"]
-        image_response = requests.get(image_url)
-        if image_response.status_code == 200:
-            return Image.open(BytesIO(image_response.content))
+        if response.status_code == 200:
+            return Image.open(BytesIO(response.content))
 
     except Exception as e:
         print(f"Image fetching error: {str(e)}")
