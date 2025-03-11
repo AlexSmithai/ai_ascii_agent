@@ -7,23 +7,17 @@ from io import BytesIO
 app = Flask(__name__)
 
 def fetch_image_from_web(search_query):
-    """Fetches an image from Unsplash based on the user's query."""
     try:
-        # Unsplash API (no key required for random images)
         search_url = f"https://source.unsplash.com/400x400/?{search_query}"
         response = requests.get(search_url)
-
         if response.status_code == 200:
             return Image.open(BytesIO(response.content))
-
     except Exception as e:
         print(f"Image fetching error: {str(e)}")
         return None
-
     return None
 
 def generate_ascii_art(prompt):
-    """Generates ASCII art from an online image based on the user's input."""
     try:
         image = fetch_image_from_web(prompt)
         if image:
