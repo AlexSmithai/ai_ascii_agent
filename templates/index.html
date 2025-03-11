@@ -22,7 +22,6 @@
             font-weight: 700;
             text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.3);
             margin-bottom: 20px;
-            animation: fadeIn 1s ease-in-out;
         }
         #chat-container {
             width: 100%;
@@ -81,14 +80,6 @@
             animation: fadeInUp 1.5s ease-in-out;
             width: 100%;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
     <script>
         async function sendMessage() {
@@ -116,11 +107,9 @@
 <body>
     <h1>Manus ASCII Art Generator</h1>
     <div id="chat-container">
-        <input type="text" id="userInput" placeholder="Enter text for ASCII art...">
+        <input type="text" id="userInput" placeholder="Enter an object for ASCII art...">
         <button onclick="sendMessage()">Generate</button>
         <pre id="response"></pre>
     </div>
 </body>
 </html>
-
-
