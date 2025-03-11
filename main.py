@@ -1,15 +1,15 @@
 import requests
 from flask import Flask, render_template, request, jsonify
-from art import text2art  # Generates ASCII art from text
+from ascii_magic import from_text  # Generates ASCII art representations
 
 app = Flask(__name__)
 
 def generate_ascii_art(prompt):
-    """Generates ASCII representation of an object using an ASCII art library."""
+    """Generates an actual ASCII representation of an object."""
     try:
-        # Generate ASCII art from text-based representations (e.g., "horse")
-        ascii_text = text2art(prompt, font="block")
-        return ascii_text
+        # Generate more realistic ASCII art from text-based representations
+        ascii_text = from_text(prompt, columns=100)
+        return str(ascii_text)
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
 
@@ -28,6 +28,5 @@ def chat():
     
     return jsonify({"response": ascii_response})
 
-# ✅ Single entry point for Flask
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
