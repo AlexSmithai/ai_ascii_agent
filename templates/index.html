@@ -25,9 +25,9 @@
         }
         #chat-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(15px);
@@ -37,8 +37,8 @@
             align-items: center;
         }
         input {
-            width: 80%;
-            padding: 12px;
+            width: 90%;
+            padding: 15px;
             border-radius: 10px;
             border: none;
             font-size: 18px;
@@ -53,7 +53,7 @@
         }
         button {
             margin-top: 15px;
-            padding: 12px 20px;
+            padding: 15px 25px;
             background: linear-gradient(135deg, #ff6600, #ff3300);
             color: white;
             border: none;
@@ -74,7 +74,7 @@
             text-align: left;
             overflow-x: auto;
             font-size: 16px;
-            max-height: 350px;
+            max-height: 400px;
             overflow-y: auto;
             box-shadow: inset 0px 0px 15px rgba(255, 255, 255, 0.2);
             animation: fadeInUp 1.5s ease-in-out;
@@ -87,7 +87,7 @@
             let responseBox = document.getElementById("response");
             
             if (!userInput) {
-                responseBox.innerText = "Please enter some text to generate ASCII art.";
+                responseBox.innerText = "Please enter an object name to generate ASCII art.";
                 return;
             }
             
