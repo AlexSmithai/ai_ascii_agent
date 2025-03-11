@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manus ASCII Art Generator</title>
+    <title>Manus AI ASCII Agent</title>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -22,6 +22,7 @@
             font-weight: 700;
             text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.3);
             margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
         }
         #chat-container {
             width: 100%;
@@ -80,6 +81,17 @@
             animation: fadeInUp 1.5s ease-in-out;
             width: 100%;
         }
+        #about {
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1.5s ease-in-out;
+        }
     </style>
     <script>
         async function sendMessage() {
@@ -105,11 +117,25 @@
     </script>
 </head>
 <body>
-    <h1>Manus ASCII Art Generator</h1>
+    <h1>Manus AI ASCII Agent</h1>
     <div id="chat-container">
         <input type="text" id="userInput" placeholder="Enter an object for ASCII art...">
         <button onclick="sendMessage()">Generate</button>
         <pre id="response"></pre>
+    </div>
+    <div id="about">
+        <h2>About the Manus AI ASCII Agent</h2>
+        <p>Welcome to the Manus AI ASCII Agent, the official ASCII art generator designed according to Manus AI's vision.</p>
+        <p>This agent was created to push the boundaries of ASCII creativity, delivering AI-powered art generation.</p>
+        <p>Key Features:</p>
+        <ul>
+            <li>Fetches images from the web dynamically</li>
+            <li>Converts images into high-quality ASCII art</li>
+            <li>Supports different ASCII styles and customizations</li>
+            <li>Super-fast generation powered by AI</li>
+            <li>Future feature: Upload your own images</li>
+        </ul>
+        <p>This is the next evolution of digital ASCII art. Designed for creativity. Inspired by technology.</p>
     </div>
 </body>
 </html>
