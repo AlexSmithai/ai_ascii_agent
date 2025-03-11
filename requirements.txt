@@ -2,3 +2,4 @@ flask
 gunicorn
 art
 ascii-magic
+requests
