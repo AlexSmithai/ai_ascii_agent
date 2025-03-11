@@ -3,21 +3,40 @@ import ascii_magic
 from flask import Flask, render_template, request, jsonify
 from PIL import Image
 from io import BytesIO
+import os
 
 app = Flask(__name__)
 
+# Get your free Pexels API key from https://www.pexels.com/api/
+PEXELS_API_KEY = "YOUR_PEXELS_API_KEY"
+
 def fetch_image_from_web(search_query):
+    """Fetches an image from Pexels API."""
     try:
-        search_url = f"https://source.unsplash.com/400x400/?{search_query}"
-        response = requests.get(search_url)
-        if response.status_code == 200:
-            return Image.open(BytesIO(response.content))
+        search_url = f"https://api.pexels.com/v1/search?query={search_query}&per_page=1"
+        headers = {"Authorization": PEXELS_API_KEY}
+        
+        response = requests.get(search_url, headers=headers)
+        if response.status_code != 200:
+            return None
+
+        image_results = response.json().get("photos", [])
+        if not image_results:
+            return None
+
+        image_url = image_results[0]["src"]["large"]
+        image_response = requests.get(image_url)
+        if image_response.status_code == 200:
+            return Image.open(BytesIO(image_response.content))
+
     except Exception as e:
         print(f"Image fetching error: {str(e)}")
         return None
+
     return None
 
 def generate_ascii_art(prompt):
+    """Generates ASCII art from an online image based on the user's input."""
     try:
         image = fetch_image_from_web(prompt)
         if image:
