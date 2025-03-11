@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCII AI Art Chatbot - Manus Edition</title>
+    <title>Manus ASCII Art AI</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
-            background: linear-gradient(to bottom, #0d0d0d, #262626);
+            background: #0d0d0d;
             color: white;
             display: flex;
             flex-direction: column;
@@ -18,10 +18,10 @@
             padding: 10px;
         }
         h1 {
-            color: #ffcc00;
+            color: #ffffff;
             text-align: center;
             font-size: 2.5rem;
-            text-shadow: 2px 2px 10px #ff9900;
+            text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.8);
         }
         #chat-container {
             width: 90%;
@@ -29,9 +29,8 @@
             background: rgba(20, 20, 20, 0.95);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0px 0px 25px rgba(255, 204, 0, 0.5);
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
             text-align: center;
-            animation: fadeIn 1.5s ease-in-out;
         }
         input {
             width: 75%;
@@ -45,7 +44,7 @@
         }
         button {
             padding: 12px;
-            background: linear-gradient(135deg, #ffcc00, #ff9900);
+            background: linear-gradient(135deg, #ffffff, #bbbbbb);
             color: black;
             border: none;
             border-radius: 8px;
@@ -54,7 +53,7 @@
             transition: 0.3s;
         }
         button:hover {
-            background: linear-gradient(135deg, #ff9900, #ffcc00);
+            background: linear-gradient(135deg, #bbbbbb, #ffffff);
         }
         pre {
             background: rgba(30, 30, 30, 0.95);
@@ -66,11 +65,7 @@
             font-size: 14px;
             max-height: 300px;
             overflow-y: auto;
-            box-shadow: inset 0px 0px 10px rgba(255, 204, 0, 0.3);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.3);
         }
     </style>
     <script>
@@ -89,7 +84,7 @@
     </script>
 </head>
 <body>
-    <h1>✨ Manus ASCII AI Art ✨</h1>
+    <h1>Manus ASCII Art AI</h1>
     <div id="chat-container">
         <input type="text" id="userInput" placeholder="Describe an ASCII art...">
         <button onclick="sendMessage()">Generate</button>
