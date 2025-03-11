@@ -1,26 +1,14 @@
-import openai
-import os
+import pyfiglet
+import random
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# Load OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Function to generate AI-enhanced ASCII art
-def generate_ai_ascii(prompt):
-    """Uses OpenAI's API to generate ASCII art."""
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4-turbo",  # Use OpenAI GPT-4 Turbo
-            messages=[
-                {"role": "system", "content": "You are an AI that generates ASCII art based on user input."},
-                {"role": "user", "content": f"Generate ASCII art for: {prompt}"}
-            ]
-        )
-        return response["choices"][0]["message"]["content"]
-    except Exception as e:
-        return f"Error generating AI ASCII: {str(e)}"
+def generate_ascii(text):
+    """Generates ASCII art from text using pyfiglet."""
+    fonts = ['slant', '3-d', '5lineoblique', 'big', 'block']
+    font = random.choice(fonts)
+    return pyfiglet.figlet_format(text, font=font)
 
 @app.route('/')
 def index():
@@ -31,10 +19,8 @@ def chat():
     user_input = request.json.get("message", "")
     if user_input.lower() == 'exit':
         return jsonify({"response": "Goodbye!"})
-    
-    # Generate AI-enhanced ASCII response
-    ascii_response = generate_ai_ascii(user_input)
-    return jsonify({"response": ascii_response})
+    response = generate_ascii(user_input)
+    return jsonify({"response": response})
 
 if __name__ == "__main__":
     app.run(debug=True)
