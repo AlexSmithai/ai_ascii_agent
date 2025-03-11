@@ -1,15 +1,15 @@
 import requests
+import ascii_magic  # Generates ASCII art
 from flask import Flask, render_template, request, jsonify
-from ascii_magic import from_text  # Generates ASCII art representations
 
 app = Flask(__name__)
 
 def generate_ascii_art(prompt):
-    """Generates an actual ASCII representation of an object."""
+    """Generates ASCII art using an image-based approach."""
     try:
-        # Generate more realistic ASCII art from text-based representations
-        ascii_text = from_text(prompt, columns=100)
-        return str(ascii_text)
+        # Use `from_image()` instead of `from_text()`
+        ascii_art = ascii_magic.from_image("sample.jpg", columns=100)
+        return str(ascii_art)
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
 
