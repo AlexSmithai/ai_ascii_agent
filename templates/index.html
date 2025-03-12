@@ -8,9 +8,12 @@
 </head>
 <body>
     <h1 class="glow-text">Manus AI ASCII Agent</h1>
+    
     <div id="chat-container">
-        <input type="text" id="userInput" placeholder="Enter an object for ASCII art...">
-        <button onclick="sendMessage()">Generate</button>
+        <div class="input-group">
+            <input type="text" id="userInput" placeholder="Enter object for ASCII art..." class="modern-input">
+            <button onclick="sendMessage()" class="modern-button">Generate</button>
+        </div>
         <pre id="response"></pre>
     </div>
     
@@ -42,7 +45,6 @@
             let data = await response.json();
             responseBox.innerText = data.response;
 
-            // Auto-scroll to bottom for better chat experience
             responseBox.scrollTop = responseBox.scrollHeight;
         }
 
