@@ -48,9 +48,9 @@ def generate_ascii_art(prompt):
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            # Fix: Convert ASCII object to a string using str()
-            ascii_art = str(ascii_magic.from_pillow_image(image))
-            return ascii_art
+            # Fix: Convert ASCII object to a string using .to_terminal()
+            ascii_art = ascii_magic.from_pillow_image(image)
+            return ascii_art.to_terminal()
         return "Error: Could not fetch an image for this object."
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
