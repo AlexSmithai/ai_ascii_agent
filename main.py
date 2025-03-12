@@ -7,50 +7,44 @@ from io import BytesIO
 
 app = Flask(__name__)
 
-# Get Pexels API Key from Railway Environment Variables
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY")
 
 def fetch_image_from_web(search_query):
-    """Fetches an image from Pexels API and ensures it is processable."""
+    """Fetch an image from Pexels API and return a processed Pillow Image."""
     try:
         search_url = f"https://api.pexels.com/v1/search?query={search_query}&per_page=1"
         headers = {"Authorization": PEXELS_API_KEY}
 
         response = requests.get(search_url, headers=headers)
         if response.status_code != 200:
-            print(f"Error fetching image: {response.status_code} - {response.text}")
             return None
 
         image_results = response.json().get("photos", [])
         if not image_results:
-            print("No images found for the search query.")
             return None
 
-        # Get the first high-quality image
         image_url = image_results[0]["src"]["original"]
-        print(f"Fetched Image URL: {image_url}")
-
         image_response = requests.get(image_url)
+
         if image_response.status_code == 200:
             image = Image.open(BytesIO(image_response.content))
-            image = image.convert("L")  # Convert to grayscale for better ASCII
-            image = image.resize((60, 30))  # Resize to fit chatbox
+            image = image.convert("L")  # Convert to grayscale
+            image = image.resize((50, 25))  # Resize for better chatbox fit
             return image
 
-    except Exception as e:
-        print(f"Image fetching error: {str(e)}")
+    except Exception:
         return None
 
     return None
 
 def generate_ascii_art(prompt):
-    """Fetches an image and converts it into ASCII art."""
+    """Generate ASCII art from an image search."""
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            # Fix: Convert ASCII object to a string using .to_ascii()
             ascii_art = ascii_magic.from_pillow_image(image).to_ascii()
-            return ascii_art
+            ascii_art = ascii_art.replace("\033[34m", "").replace("\033[0m", "")  # Remove ANSI color codes
+            return f"```\n{ascii_art}\n```"  # Format it properly for chatbox
         return "Error: Could not fetch an image for this object."
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
@@ -63,7 +57,7 @@ def index():
 def chat():
     user_input = request.json.get("message", "").lower()
     ascii_response = generate_ascii_art(user_input)
-    return jsonify({"response": ascii_response})  # Ensure it's properly sent as text
+    return jsonify({"response": ascii_response})  
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
