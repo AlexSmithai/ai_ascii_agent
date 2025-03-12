@@ -38,9 +38,12 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: userInput })
             });
-            
+
             let data = await response.json();
             responseBox.innerText = data.response;
+
+            // Auto-scroll to bottom for better chat experience
+            responseBox.scrollTop = responseBox.scrollHeight;
         }
 
         document.addEventListener("mousemove", (e) => {
@@ -48,7 +51,6 @@
             cursor.style.top = e.clientY + "px";
             cursor.style.left = e.clientX + "px";
         });
-
     </script>
 
     <div id="cursor"></div>
