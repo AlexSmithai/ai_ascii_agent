@@ -34,7 +34,7 @@ def fetch_image_from_web(search_query):
         if image_response.status_code == 200:
             image = Image.open(BytesIO(image_response.content))
             image = image.convert("L")  # Convert to grayscale for better ASCII
-            image = image.resize((100, 100))  # Resize for better clarity
+            image = image.resize((60, 30))  # Resize for better chatbox fit
             return image
 
     except Exception as e:
@@ -44,13 +44,13 @@ def fetch_image_from_web(search_query):
     return None
 
 def generate_ascii_art(prompt):
-    """Fetches an image and converts it into ASCII art."""
+    """Fetches an image and converts it into clean ASCII art."""
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            # Fix: Convert ASCII object to a string using .to_terminal()
-            ascii_art = ascii_magic.from_pillow_image(image)
-            return ascii_art.to_terminal()
+            # Fix: Set `colored=False` to remove unwanted color codes
+            ascii_art = ascii_magic.from_pillow_image(image, mode=ascii_magic.Modes.ASCII)
+            return str(ascii_art)  # Convert ASCII object to a clean string
         return "Error: Could not fetch an image for this object."
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
