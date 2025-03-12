@@ -1,18 +1,35 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>ASCII Art Generator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manus AI ASCII Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Upload an Image to Generate ASCII Art</h1>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" required>
-        <button type="submit">Generate ASCII Art</button>
-    </form>
-    {% if ascii_image %}
-        <h2>Generated ASCII Art:</h2>
-        <img src="{{ url_for('ascii_art', filename=ascii_image) }}" alt="ASCII Art">
-    {% endif %}
+
+    <header>
+        <h1>Manus AI ASCII Agent</h1>
+        <p>Enter any object, and we will generate its ASCII art.</p>
+    </header>
+
+    <main>
+        <div class="container">
+            <input type="text" id="query" placeholder="Type anything... (e.g., horse, cat, car)">
+            <button id="generate">Generate</button>
+        </div>
+        
+        <div id="ascii-container">
+            <pre id="ascii-art"></pre>
+        </div>
+
+        <div id="loading">Generating ASCII art...</div>
+    </main>
+
+    <footer>
+        <p>© 2025 Manus AI. Powered by OpenAI & Pexels.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
