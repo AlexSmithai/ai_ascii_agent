@@ -1,60 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manus AI ASCII Agent</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="utf-8">
+    <title>ASCII Art Generator</title>
 </head>
 <body>
-    <h1 class="glow-text">Manus AI ASCII Agent</h1>
-    
-    <div id="chat-container">
-        <div class="input-group">
-            <input type="text" id="userInput" placeholder="Enter object for ASCII art..." class="modern-input">
-            <button onclick="sendMessage()" class="modern-button">Generate</button>
-        </div>
-        <pre id="response"></pre>
-    </div>
-    
-    <div id="about">
-        <h2>About Manus AI ASCII Agent</h2>
-        <p class="typing-effect">This is the official ASCII agent that Manus AI envisioned.</p>
-        <p>The system is designed to generate ASCII representations dynamically, leveraging web-based image retrieval.</p>
-        <p>Developed according to Manus AI's standards.</p>
-    </div>
-
-    <script>
-        async function sendMessage() {
-            let userInput = document.getElementById("userInput").value.trim();
-            let responseBox = document.getElementById("response");
-            
-            if (!userInput) {
-                responseBox.innerText = "Please enter an object name to generate ASCII art.";
-                return;
-            }
-            
-            responseBox.innerText = "Generating ASCII art...";
-            
-            let response = await fetch("/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: userInput })
-            });
-
-            let data = await response.json();
-            responseBox.innerText = data.response;
-
-            responseBox.scrollTop = responseBox.scrollHeight;
-        }
-
-        document.addEventListener("mousemove", (e) => {
-            let cursor = document.getElementById("cursor");
-            cursor.style.top = e.clientY + "px";
-            cursor.style.left = e.clientX + "px";
-        });
-    </script>
-
-    <div id="cursor"></div>
+    <h1>Upload an Image to Generate ASCII Art</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Generate ASCII Art</button>
+    </form>
+    {% if ascii_image %}
+        <h2>Generated ASCII Art:</h2>
+        <img src="{{ url_for('ascii_art', filename=ascii_image) }}" alt="ASCII Art">
+    {% endif %}
 </body>
 </html>
