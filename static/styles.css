@@ -1,3 +1,4 @@
+/* General Page Styling */
 body {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #121212, #1e1e1e);
@@ -9,17 +10,14 @@ body {
     height: 100vh;
     margin: 0;
     padding: 20px;
-    cursor: none;
 }
 
+/* Title Glow Effect */
 h1 {
     font-size: 3rem;
     font-weight: 700;
-    text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.3);
+    text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
     margin-bottom: 20px;
-}
-
-.glow-text {
     animation: glow 1.5s infinite alternate;
 }
 @keyframes glow {
@@ -27,26 +25,31 @@ h1 {
     to { text-shadow: 0 0 15px #ffffff, 0 0 30px #ff6600; }
 }
 
+/* Chatbox Container */
 #chat-container {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
+    padding: 20px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(15px);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Input & Button Container */
+/* Input & Button Section */
 .input-group {
     display: flex;
+    width: 100%;
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
 }
 
-/* Modern Input */
+/* Modern Input Field */
 .modern-input {
     width: 70%;
     padding: 12px;
@@ -64,7 +67,7 @@ h1 {
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
 }
 
-/* Modern Button */
+/* Modern Generate Button */
 .modern-button {
     padding: 12px 20px;
     font-size: 18px;
@@ -80,16 +83,35 @@ h1 {
     transform: scale(1.05);
 }
 
+/* ASCII Art Display */
 #response {
-    height: 300px;
+    height: 400px; /* Increased height for larger ASCII output */
+    max-width: 100%;
     overflow-y: auto;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.1);
+    white-space: pre-wrap; /* Fixes text wrapping */
+    font-size: 12px; /* Adjust font size for better visibility */
+    background: black; /* Better contrast for ASCII */
+    color: white;
+    padding: 10px;
     border-radius: 10px;
-    width: 100%;
-    word-wrap: break-word;
-    font-size: 1rem;
     box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Copy Button */
+.copy-button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    background: #ff6600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.copy-button:hover {
+    background: #ff3300;
+    transform: scale(1.05);
 }
 
 /* Cursor Effect */
