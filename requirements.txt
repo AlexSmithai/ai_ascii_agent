@@ -1,5 +1,5 @@
 flask
 requests
 Pillow
-image-to-ascii
+ascii-magic
 gunicorn
