@@ -1,17 +1,17 @@
 import requests
-import ascii_magic
+import os
 from flask import Flask, render_template, request, jsonify
 from PIL import Image
 from io import BytesIO
-import os
+import image_to_ascii  # External library
 
 app = Flask(__name__)
 
-# Get Pexels API Key from Railway Environment Variables
+# Pexels API Key (Set from Railway Environment Variables)
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY")
 
 def fetch_image_from_web(search_query):
-    """Fetches an image from Pexels API and ensures it can be processed."""
+    """Fetches an image from Pexels API and ensures it is processable."""
     try:
         search_url = f"https://api.pexels.com/v1/search?query={search_query}&per_page=1"
         headers = {"Authorization": PEXELS_API_KEY}
@@ -34,7 +34,7 @@ def fetch_image_from_web(search_query):
         if image_response.status_code == 200:
             image = Image.open(BytesIO(image_response.content))
             image = image.convert("L")  # Convert to grayscale for better ASCII
-            image = image.resize((120, 120))  # Resize for clarity
+            image = image.resize((100, 100))  # Resize for clarity
             return image
 
     except Exception as e:
@@ -48,8 +48,8 @@ def generate_ascii_art(prompt):
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            ascii_art = ascii_magic.from_pillow_image(image, columns=100, mode=ascii_magic.Modes.ASCII)
-            return str(ascii_art)
+            ascii_art = image_to_ascii.convert(image, width=80, height=40)
+            return ascii_art
         return "Error: Could not fetch an image for this object."
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
@@ -66,3 +66,4 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
+
