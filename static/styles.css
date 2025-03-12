@@ -35,6 +35,49 @@ h1 {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(15px);
+    text-align: center;
+}
+
+/* Input & Button Container */
+.input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Modern Input */
+.modern-input {
+    width: 70%;
+    padding: 12px;
+    font-size: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    text-align: center;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+.modern-input:focus {
+    border-color: white;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Modern Button */
+.modern-button {
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ff6600, #ff3300);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.modern-button:hover {
+    background: linear-gradient(135deg, #ff3300, #ff6600);
+    transform: scale(1.05);
 }
 
 #response {
