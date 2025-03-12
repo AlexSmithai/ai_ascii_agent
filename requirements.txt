@@ -1,6 +1,5 @@
 flask
-gunicorn
 requests
-ascii-magic
-colorama
 Pillow
+image-to-ascii
+gunicorn
