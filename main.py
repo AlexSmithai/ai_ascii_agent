@@ -42,22 +42,14 @@ def generate_ascii_art(prompt):
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            ascii_art = ascii_magic.from_pillow_image(image).to_ascii()
-            ascii_art = ascii_art.replace("\033[34m", "").replace("\033[0m", "")  # Remove ANSI color codes
-            return f"```\n{ascii_art}\n```"  # Format it properly for chatbox
+            # Generate ASCII art **without color**
+            ascii_art = ascii_magic.from_pillow_image(image, mode=ascii_magic.Modes.ASCII).to_ascii()
+
+            # Strip out any unwanted ANSI codes (color artifacts)
+            ascii_art = ascii_art.replace("\033[34m", "").replace("\033[37m", "").replace("\033[0m", "")
+
+            # Format properly for chatbox display
+            return f"```\n{ascii_art}\n```"
         return "Error: Could not fetch an image for this object."
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/chat', methods=['POST'])
-def chat():
-    user_input = request.json.get("message", "").lower()
-    ascii_response = generate_ascii_art(user_input)
-    return jsonify({"response": ascii_response})  
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
