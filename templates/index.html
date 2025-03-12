@@ -95,14 +95,57 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
+
+        /* About Section */
+        #about-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00FF41;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 10px #00FF41;
+            animation: floatIn 1s ease-in-out;
+        }
+
+        @keyframes floatIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        #about-container h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-shadow: 0px 0px 8px #00FF41;
+        }
+
+        #about-container p {
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+
     </style>
 </head>
 <body>
     <h1>Manus AI ASCII Agent</h1>
+    
     <input type="text" id="user-input" placeholder="Enter text or object...">
     <button onclick="generateASCII()">Generate</button>
 
     <pre id="ascii-container"></pre>
+
+    <!-- About Section -->
+    <div id="about-container">
+        <h2>About Manus AI ASCII Agent</h2>
+        <p>
+            The Manus AI ASCII Agent is a tool that converts text and images into stunning ASCII art.
+            Using AI-powered processing, it generates high-quality ASCII representations with a unique
+            retro aesthetic. Built for fun, creativity, and nostalgia!
+        </p>
+    </div>
 
     <script>
         function generateASCII() {
