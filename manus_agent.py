@@ -1,13 +1,10 @@
-from art import text2art
+import ascii_magic
 
-class ManusAgent:
-    """ AI Agent that generates ASCII Art """
+def generate_ascii_art(text):
+    try:
+        return ascii_magic.from_text(text, columns=80)
+    except Exception as e:
+        return f"Error generating ASCII Art: {str(e)}"
 
-    def __init__(self, name="Manus", font="block", verbose=True):
-        self.name = name
-        self.font = font
-        self.verbose = verbose
-
-    def get_ascii_art(self, text):
-        """ Generates ASCII text """
-        return text2art(text, font=self.font)
+def process_query(query):
+    return f"Manus AI Agent Response: {query}"
