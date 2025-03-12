@@ -1,5 +1,7 @@
-flask
-requests
-Pillow
-ascii-magic
-gunicorn
+Flask==3.0.0
+Werkzeug==3.0.0
+Pillow==10.1.0
+numpy==1.26.0
+requests==2.31.0
+gunicorn==21.2.0
+ascii-magic==1.6
