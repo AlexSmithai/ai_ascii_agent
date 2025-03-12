@@ -27,7 +27,7 @@ def fetch_image_from_web(search_query):
             return None
 
         # Get the first high-quality image
-        image_url = image_results[0]["src"]["large"]
+        image_url = image_results[0]["src"]["original"]
         print(f"Fetched Image URL: {image_url}")
 
         image_response = requests.get(image_url)
@@ -48,7 +48,8 @@ def generate_ascii_art(prompt):
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            ascii_art = ascii_magic.from_pillow_image(image, columns=100)
+            # Fix: Removed 'columns' argument, using default settings
+            ascii_art = ascii_magic.from_pillow_image(image)
             return str(ascii_art)
         return "Error: Could not fetch an image for this object."
     except Exception as e:
