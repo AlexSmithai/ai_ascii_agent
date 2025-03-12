@@ -48,9 +48,9 @@ def generate_ascii_art(prompt):
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            # Fix: Removed `Modes` attribute, using correct ascii_magic method
-            ascii_art = ascii_magic.from_pillow_image(image, mode="ASCII")  # Correct method
-            return str(ascii_art)  # Convert to string
+            # Fix: Removed incorrect 'mode' argument
+            ascii_art = ascii_magic.from_pillow_image(image)
+            return ascii_art  # Correct output as a string
         return "Error: Could not fetch an image for this object."
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
@@ -63,7 +63,7 @@ def index():
 def chat():
     user_input = request.json.get("message", "").lower()
     ascii_response = generate_ascii_art(user_input)
-    return jsonify({"response": ascii_response})
+    return jsonify({"response": str(ascii_response)})  # Ensure it's converted to string
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
