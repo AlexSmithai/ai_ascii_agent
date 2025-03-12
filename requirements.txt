@@ -1,6 +1,0 @@
-flask
-flask-cors
-gunicorn
-ascii-magic
-pillow
-werkzeug
