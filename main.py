@@ -48,9 +48,9 @@ def generate_ascii_art(prompt):
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            # Fix: Removed 'columns' argument, using default settings
-            ascii_art = ascii_magic.from_pillow_image(image)
-            return str(ascii_art)
+            # Fix: Convert ASCII object to a string
+            ascii_art = ascii_magic.from_pillow_image(image).to_string()
+            return ascii_art
         return "Error: Could not fetch an image for this object."
     except Exception as e:
         return f"Error generating ASCII Art: {str(e)}"
