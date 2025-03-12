@@ -2,183 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manus AI ASCII Agent</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #121212;
-            color: #00FF41;
-            font-family: 'VT323', monospace;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-top: 30px;
-            text-shadow: 0px 0px 10px #00FF41;
-        }
-
-        #ascii-container {
-            white-space: pre-wrap;
-            font-size: 14px;
-            font-weight: bold;
-            color: #00FF41;
-            background: #000;
-            display: inline-block;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px #00FF41;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        input {
-            font-size: 1.2em;
-            padding: 10px;
-            border: none;
-            outline: none;
-            background: #000;
-            color: #00FF41;
-            border: 2px solid #00FF41;
-            border-radius: 5px;
-            text-align: center;
-            transition: 0.3s;
-            width: 250px;
-        }
-
-        input:focus {
-            box-shadow: 0 0 15px #00FF41;
-        }
-
-        button {
-            font-size: 1.2em;
-            padding: 10px 20px;
-            margin-top: 10px;
-            border: none;
-            background: #00FF41;
-            color: #000;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #008F28;
-            box-shadow: 0 0 10px #00FF41;
-        }
-
-        /* Cursor Animation */
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 20px;
-            background-color: #00FF41;
-            margin-left: 5px;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* About Section */
-        #about-container {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #00FF41;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 0 10px #00FF41;
-            animation: floatIn 1s ease-in-out;
-        }
-
-        @keyframes floatIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        #about-container h2 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-            text-shadow: 0px 0px 8px #00FF41;
-        }
-
-        #about-container p {
-            font-size: 1.2em;
-            line-height: 1.5;
-        }
-
-    </style>
+    <title>ECHO AI - ASCII Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='cursor.js') }}"></script>
 </head>
 <body>
-    <h1>Manus AI ASCII Agent</h1>
-    
-    <input type="text" id="user-input" placeholder="Enter text or object...">
-    <button onclick="generateASCII()">Generate</button>
-
-    <pre id="ascii-container"></pre>
-
-    <!-- About Section -->
-    <div id="about-container">
-        <h2>About Manus AI ASCII Agent</h2>
-        <p>
-            The Manus AI ASCII Agent is a tool that converts text and images into stunning ASCII art.
-            Using AI-powered processing, it generates high-quality ASCII representations with a unique
-            retro aesthetic. Built for fun, creativity, and nostalgia!
-        </p>
+    <div class="container">
+        <h1>ECHO AI - ASCII Agent</h1>
+        <textarea id="inputText" placeholder="Enter text..."></textarea>
+        <button onclick="generateArt()">Generate ASCII Art</button>
+        <pre id="asciiOutput"></pre>
     </div>
-
     <script>
-        function generateASCII() {
-            const input = document.getElementById("user-input").value;
-            if (!input.trim()) return;
-
+        function generateArt() {
+            const text = document.getElementById("inputText").value;
             fetch("/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ input })
+                body: JSON.stringify({ text: text })
             })
             .then(response => response.json())
             .then(data => {
-                let asciiText = data.ascii_art || "Error generating ASCII";
-                animateText(asciiText);
+                document.getElementById("asciiOutput").textContent = data.ascii_art;
             });
-        }
-
-        function animateText(text) {
-            let container = document.getElementById("ascii-container");
-            container.innerHTML = "";
-            let index = 0;
-
-            function type() {
-                if (index < text.length) {
-                    container.innerHTML += text[index];
-                    index++;
-                    setTimeout(type, 5);
-                } else {
-                    container.innerHTML += '<span class="cursor"></span>';
-                }
-            }
-            type();
         }
     </script>
 </body>
