@@ -5,21 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manus AI ASCII Agent</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #222; color: white; text-align: center; }
-        #ascii-container { white-space: pre-wrap; font-family: monospace; margin: 20px auto; padding: 10px; background-color: #000; border-radius: 5px; }
-        input, button { padding: 10px; margin: 10px; }
-        button { cursor: pointer; }
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #121212;
+            color: #00FF41;
+            font-family: 'VT323', monospace;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-top: 30px;
+            text-shadow: 0px 0px 10px #00FF41;
+        }
+
+        #ascii-container {
+            white-space: pre-wrap;
+            font-size: 14px;
+            font-weight: bold;
+            color: #00FF41;
+            background: #000;
+            display: inline-block;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #00FF41;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        input {
+            font-size: 1.2em;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background: #000;
+            color: #00FF41;
+            border: 2px solid #00FF41;
+            border-radius: 5px;
+            text-align: center;
+            transition: 0.3s;
+            width: 250px;
+        }
+
+        input:focus {
+            box-shadow: 0 0 15px #00FF41;
+        }
+
+        button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            background: #00FF41;
+            color: #000;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #008F28;
+            box-shadow: 0 0 10px #00FF41;
+        }
+
+        /* Cursor Animation */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00FF41;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
     <h1>Manus AI ASCII Agent</h1>
     <input type="text" id="user-input" placeholder="Enter text or object...">
     <button onclick="generateASCII()">Generate</button>
+
     <pre id="ascii-container"></pre>
 
     <script>
         function generateASCII() {
             const input = document.getElementById("user-input").value;
+            if (!input.trim()) return;
+
             fetch("/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -27,8 +116,26 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById("ascii-container").innerText = data.ascii_art || "Error generating ASCII";
+                let asciiText = data.ascii_art || "Error generating ASCII";
+                animateText(asciiText);
             });
+        }
+
+        function animateText(text) {
+            let container = document.getElementById("ascii-container");
+            container.innerHTML = "";
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    container.innerHTML += text[index];
+                    index++;
+                    setTimeout(type, 5);
+                } else {
+                    container.innerHTML += '<span class="cursor"></span>';
+                }
+            }
+            type();
         }
     </script>
 </body>
