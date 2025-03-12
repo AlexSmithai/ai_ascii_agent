@@ -4,32 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manus AI ASCII Agent</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #222; color: white; text-align: center; }
+        #ascii-container { white-space: pre-wrap; font-family: monospace; margin: 20px auto; padding: 10px; background-color: #000; border-radius: 5px; }
+        input, button { padding: 10px; margin: 10px; }
+        button { cursor: pointer; }
+    </style>
 </head>
 <body>
+    <h1>Manus AI ASCII Agent</h1>
+    <input type="text" id="user-input" placeholder="Enter text or object...">
+    <button onclick="generateASCII()">Generate</button>
+    <pre id="ascii-container"></pre>
 
-    <header>
-        <h1>Manus AI ASCII Agent</h1>
-        <p>Enter any object, and we will generate its ASCII art.</p>
-    </header>
-
-    <main>
-        <div class="container">
-            <input type="text" id="query" placeholder="Type anything... (e.g., horse, cat, car)">
-            <button id="generate">Generate</button>
-        </div>
-        
-        <div id="ascii-container">
-            <pre id="ascii-art"></pre>
-        </div>
-
-        <div id="loading">Generating ASCII art...</div>
-    </main>
-
-    <footer>
-        <p>© 2025 Manus AI. Powered by OpenAI & Pexels.</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function generateASCII() {
+            const input = document.getElementById("user-input").value;
+            fetch("/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ input })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("ascii-container").innerText = data.ascii_art || "Error generating ASCII";
+            });
+        }
+    </script>
 </body>
 </html>
