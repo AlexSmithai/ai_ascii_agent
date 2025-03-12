@@ -1,36 +1,66 @@
-from flask import Flask, render_template, request, jsonify
-import requests
-import ascii_magic
 import os
+import flask
+import ascii_magic
+from flask import Flask, request, jsonify, render_template
+from art import text2art
 from PIL import Image
+import requests
 from io import BytesIO
 
 app = Flask(__name__)
 
-PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "your-api-key-here")
-PEXELS_URL = "https://api.pexels.com/v1/search"
+# Load Pexels API key from environment variables
+PEXELS_API_KEY = os.getenv("PEXELS_API_KEY")
 
-@app.route('/')
-def home():
-    return render_template("index.html")
+def generate_ascii_art_from_text(text):
+    try:
+        return text2art(text)
+    except Exception as e:
+        return f"Error generating ASCII Art: {e}"
 
-@app.route('/generate_ascii')
-def generate_ascii():
-    query = request.args.get("query", "").strip()
-    
-    if not query:
-        return jsonify({"success": False, "error": "Empty input"})
+def generate_ascii_art_from_image(image_url):
+    try:
+        response = requests.get(image_url)
+        image = Image.open(BytesIO(response.content))
+        ascii_art = ascii_magic.from_image(image)
+        return ascii_art
+    except Exception as e:
+        return f"Error processing image: {e}"
 
+def search_image(query):
+    """ Fetch an image from Pexels API """
     headers = {"Authorization": PEXELS_API_KEY}
     params = {"query": query, "per_page": 1}
+    response = requests.get("https://api.pexels.com/v1/search", headers=headers, params=params)
     
-    response = requests.get(PEXELS_URL, headers=headers, params=params)
-    if response.status_code != 200 or not response.json().get("photos"):
-        return jsonify({"success": False, "error": "No images found."})
+    if response.status_code == 200:
+        data = response.json()
+        if data["photos"]:
+            return data["photos"][0]["src"]["original"]
+    return None
 
-    image_url = response.json()["photos"][0]["src"]["medium"]
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-    try:
-        img_response = requests.get(image_url)
-        img = Image.open(BytesIO(img_response.content))
-        ascii_art = ascii_magic.from_image(img, mode=ascii_magic.Modes
+@app.route("/generate", methods=["POST"])
+def generate_ascii():
+    data = request.json
+    user_input = data.get("input", "")
+
+    if not user_input:
+        return jsonify({"error": "Input cannot be empty"}), 400
+
+    # Check if the input is an image request
+    image_url = search_image(user_input)
+    
+    if image_url:
+        ascii_art = generate_ascii_art_from_image(image_url)
+    else:
+        ascii_art = generate_ascii_art_from_text(user_input)
+
+    return jsonify({"ascii_art": ascii_art})
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
