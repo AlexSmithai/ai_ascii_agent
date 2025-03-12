@@ -8,13 +8,13 @@ from flask import Flask, request, jsonify, render_template
 # Flask app initialization
 app = Flask(__name__)
 
-# Pexels API Key (Make sure it's set in your Railway environment variables)
+# Fetch API Key from environment variables
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY")
 
 def fetch_image_from_web(query):
-    """Fetch an image from Pexels API based on the search query."""
+    """Fetch an image from Pexels API based on a search query."""
     if not PEXELS_API_KEY:
-        return None  # API key is missing
+        return None  # API key missing
 
     try:
         url = f"https://api.pexels.com/v1/search?query={query}&per_page=1"
@@ -29,25 +29,23 @@ def fetch_image_from_web(query):
                 return Image.open(BytesIO(image_response.content))
         return None  # No images found
     except Exception as e:
-        print(f"Error fetching image: {e}")
+        print(f"❌ Error fetching image: {e}")
         return None
 
 def generate_ascii_art(prompt):
-    """Generate ASCII art from an image search."""
+    """Generate ASCII art from an image based on user input."""
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            # Generate ASCII art **without color**
             ascii_art = ascii_magic.from_pillow_image(image, mode=ascii_magic.Modes.ASCII).to_ascii()
 
-            # Strip out any unwanted ANSI codes (color artifacts)
+            # Strip unwanted ANSI color codes (removes blue artifacts)
             ascii_art = ascii_art.replace("\033[34m", "").replace("\033[37m", "").replace("\033[0m", "")
 
-            # Format properly for chatbox display
             return f"```\n{ascii_art}\n```"
-        return "Error: Could not fetch an image for this object."
+        return "❌ Error: Could not fetch an image for this object."
     except Exception as e:
-        return f"Error generating ASCII Art: {str(e)}"
+        return f"❌ Error generating ASCII Art: {str(e)}"
 
 @app.route('/')
 def home():
@@ -55,11 +53,12 @@ def home():
 
 @app.route('/generate', methods=['POST'])
 def generate():
+    """Handles the request for generating ASCII art."""
     data = request.json
     prompt = data.get("prompt", "").strip()
 
     if not prompt:
-        return jsonify({"error": "Please enter an object to generate ASCII art for."})
+        return jsonify({"error": "⚠️ Please enter an object to generate ASCII art for."})
 
     ascii_art = generate_ascii_art(prompt)
     return jsonify({"ascii_art": ascii_art})
