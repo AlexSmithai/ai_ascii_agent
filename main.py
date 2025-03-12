@@ -7,11 +7,11 @@ from io import BytesIO
 
 app = Flask(__name__)
 
-# Pexels API Key (Make sure it's set in Railway)
+# Get Pexels API Key from Railway Environment Variables
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY")
 
 def fetch_image_from_web(search_query):
-    """Fetches an image from Pexels API and ensures it can be processed."""
+    """Fetches an image from Pexels API and ensures it is processable."""
     try:
         search_url = f"https://api.pexels.com/v1/search?query={search_query}&per_page=1"
         headers = {"Authorization": PEXELS_API_KEY}
@@ -26,7 +26,7 @@ def fetch_image_from_web(search_query):
             print("No images found for the search query.")
             return None
 
-        # Fetch the best available image
+        # Get the first high-quality image
         image_url = image_results[0]["src"]["large"]
         print(f"Fetched Image URL: {image_url}")
 
@@ -48,7 +48,7 @@ def generate_ascii_art(prompt):
     try:
         image = fetch_image_from_web(prompt)
         if image:
-            ascii_art = ascii_magic.from_pillow_image(image, columns=100, mode=ascii_magic.Modes.ASCII)
+            ascii_art = ascii_magic.from_pillow_image(image, columns=100)
             return str(ascii_art)
         return "Error: Could not fetch an image for this object."
     except Exception as e:
@@ -66,5 +66,3 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
-
-
