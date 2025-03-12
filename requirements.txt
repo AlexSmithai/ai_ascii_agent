@@ -1,6 +1,4 @@
-flask
+Flask
+pyfiglet
 ascii-magic
-art
 gunicorn
-requests
-Pillow
